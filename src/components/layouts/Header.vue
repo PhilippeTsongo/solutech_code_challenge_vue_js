@@ -1,8 +1,7 @@
 <template>
     <div class="flex w-100 pb-3 bg-[#F5F7FB]">
-      <div class="flex">
-
-			<form action="" class="flex ml-0">
+      <div class="flex pl-14">
+			<form action="" class="flex">
 				<i class="fa fa-search absolute mt-3 ml-3"></i>
 				<input type="search" class="pl-8 p-2 rounded-md w-48 sm:w-96" placeholder="Search...">
 			</form>

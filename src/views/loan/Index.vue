@@ -4,10 +4,16 @@
       
       <div class="flex">
 
-         <Sidebar/>
+        <Sidebar :data="goMenu"/>
 
-         <div class="content px-5 py-3 bg-[#F5F7FB] mt-0 border-l border-gray-200">
 
+        <div class="content px-5 py-3 bg-[#F5F7FB] mt-0 border-l border-gray-200">
+
+            <button @click="newMenu" class="absolute p-1">
+                <svg xmlns="http://www.w3.org/2000/svg"  class="w-10 h-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M4 6h16M4 12h16M4 18h16"/> 
+                </svg>
+            </button>
             <Header/>
 
             <div class="content rounded-md bg-[#F5F7FB] mt-3">
@@ -15,7 +21,6 @@
                 <div class="mb-2 flex">
                     <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i>Loan </h1>
                 </div>
-              
               
                 <!--edit modal -->
                 <div v-if="showModalEdit">
@@ -224,6 +229,7 @@ export default {
             showModal: false,
             showModalEdit: false,
             openDropdownIndex: null,
+            goMenu: false,
 
             loans: {},
             pending: '',
@@ -239,7 +245,7 @@ export default {
             },
             
         };
-  },
+    },
 
     mounted(){
         this.fetchLoans();
@@ -261,7 +267,7 @@ export default {
                 this.total = response.data.total;
             })
             .catch(error => {
-                console.log(error.response.message);
+                console.log(error);
             });
         },
 
@@ -384,6 +390,10 @@ export default {
             const image = getProfileImageUrl(path);
             return image;
         },
+
+        newMenu(){
+            this.goMenu = !this.goMenu;
+        }
     }
     
 };
