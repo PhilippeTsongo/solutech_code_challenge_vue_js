@@ -43,7 +43,7 @@
 
         <ul class="mt-5">
             <li class="ml-0 mt-2 p-2 hover:bg-[#F5F7FB] hover:rounded">
-                <a href="" class="text-gray-900 uppercase"> <router-link :to="{ name: 'IndexLoan' }"> <i class="fa-solid fa-rectangle-list"></i> Loan</router-link></a>
+                <a href="" class="text-gray-900 uppercase"> <router-link :to="{ name: 'IndexLoan' }"> <i class="fa-solid fa-rectangle-list"></i> Loans</router-link></a>
             </li>
         </ul>
 
@@ -59,12 +59,6 @@
             </li>
         </ul>
 
-
-        <ul class="mt-5">
-            <li class="ml-0 mt-2 p-2 hover:bg-[#F5F7FB] hover:rounded">
-                <a href="" class="text-gray-900 uppercase"> <router-link :to="{ name: 'logout' }"> <i class="fa fa-power-off mr-1"></i> Logout</router-link></a>
-            </li>
-        </ul>
     </div>
 
     <!-- SIDEBAR WITHOUT TITLE -->
@@ -81,15 +75,11 @@
 
         <ul class="mt-8">
             <li class="ml-0 mt-3">
-                <a href="" title="Utilisateur"> <router-link :to="{ name: 'IndexUser' }"> <i class="fa fa-users"></i> </router-link></a>
+                <a href="" title="User"> <router-link :to="{ name: 'IndexUser' }"> <i class="fa fa-users"></i> </router-link></a>
             </li>
             
-            <li class="ml-0 mt-3">
-                <a href="" title="Connexion"> <router-link :to="{ name: 'login' }"> <i class="fa fa-power-off"></i> </router-link></a>
-            </li>
-            <li class="ml-0 mt-3">
-                <a href="" title="Déconnexion"> <router-link :to="{ name: 'logout' }"> <i class="fa fa-power-off"></i> </router-link></a>
-            </li>
+           
+           
         </ul>
     </div>
 </div>

@@ -14,53 +14,9 @@
     
                 <div class="mb-2 flex">
                     <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i>Loan </h1>
-                    
-                    <div class="">
-                        <button v-if="showModal == false" class="border border-green text-green-500 bg-white py-1 px-2 rounded hover:text-white hover:bg-green-500 hover:text-white" @click="toggleModal"><i class="fa fa-plus-circle"></i> New Loan</button>
-                    </div>
                 </div>
               
-                <!--new modal -->
-                <div v-if="showModal">
-                        <div class="grid grid-flow-col rounded absolute w-96 top-20 right-0 h-auto">
-                            <div class> 
-                                <div class="register-form rounded-md bg-white px-5 border-gray-900 shadow-xl md:absolute md:ml-auto md:mr-auto md:w-3/4 lg:ml-14">
-
-                                    <div class="flex py-5 w-full">
-                                        <div class="title flex-1">
-                                            <h2 class="uppercase text-lg text-green-500"><i class="fa fa-list-ol"></i> New Loan</h2>
-                                        </div>
-                                        <div class="">
-                                            <button v-if="showModal" class="bg-white px-2 py-1 rounded text-red-500" @click="toggleModal"><i class="fa fa-xmark"></i> </button>
-                                        </div>
-                                    </div>
-
-                                    <form @submit.prevent="newLoan">
-
-                                        <div class="mt-5 pb-5">
-                                            <h2 class="uppercase text-green-500 text-xs">Loan Information</h2>
-
-                                            <h5 class="mt-3 text-red-500">Require fields are marked *</h5>
-                                            
-                                            <div class="mt-5 md:grid grid-flow-col flex-stretch gap-10">
-                                                <div class="block md:inline">
-                                                    <label for="" class="block text-xs uppercase">Name <span class="text-red-500">*</span></label>
-                                                    <input type="text" v-model="formData.name" class="block border rounded-md p-2 border-gray-300 w-full" required >
-                                                </div>
-                                            </div>
-                                            <div class="mt-10 text-center">
-                                                <button class="text-[#111827] border border-[#111827] w-full rounded-md px-3 py-2 hover:border-none hover:bg-green-500 hover:text-white"> <i class="fa fa-paper-plane-top"></i> Save</button>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
-
-                            </div>
-
-                        </div>
-                </div>
-
+              
                 <!--edit modal -->
                 <div v-if="showModalEdit">
                         <div class="grid grid-flow-col rounded absolute w-96 top-20 right-0 h-auto">
@@ -69,7 +25,7 @@
 
                                     <div class="flex py-5 w-full">
                                         <div class="title flex-1">
-                                            <h2 class="uppercase text-lg text-green-500"><i class="fa fa-list-ol"></i> Extend Loan</h2>
+                                            <h2 class="uppercase text-sm text-green-500"><i class="fa-solid fa-rectangle-list"></i> Extend Loan</h2>
                                         </div>
                                         <div class="">
                                             <button v-if="showModalEdit" class="bg-white px-2 py-1 rounded text-red-500" @click="toggleModalEdit"><i class="fa fa-xmark"></i> </button>
@@ -111,7 +67,7 @@
                                 <div class="text-bold">Total</div>
                             </div>
 
-                            <div class="mt-5 bg-[#F5F7FB] rounded p-5 text-center text-green-500">
+                            <div class="mt-5 bg-[#F5F7FB] rounded p-5 text-center text-red-500">
                                 <div>{{ rejected }}</div>
                                 <div class="text-bold">Rejected</div>
                             </div>
@@ -127,7 +83,7 @@
                             </div>
 
                             <div class="flex justify-between mt-5 bg-[#F5F7FB] p-3 rounded">
-                                <div class="text-center pr-1 border-r text-orange-500 border-gray-200">
+                                <div class="text-center pr-0 border-r text-yellow-500 border-gray-200">
                                     <div> {{ extended }} </div>
                                     <div> Extended </div> 
                                 </div>
@@ -201,7 +157,7 @@
                                                     <td :class="{'text-orange-500' : loan.penalty_status === 'CHARGED' }" class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">{{ loan.penalty_status }}</td>
                                                     <td class="whitespace-nowrap  px-3 py-0 font-medium border-r border-b border-gray-200">{{ loan.penalty_amount }}</td>
 
-                                                    <td :class="{'text-orange-500' : loan.status === 'PENDING', 'text-red-500' : loan.status === 'REJECTED', 'text-blue-500' : loan.status === 'EXTENDED', }" class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">{{ loan.status }}</td>
+                                                    <td :class="{'text-orange-500' : loan.status === 'PENDING', 'text-red-500' : loan.status === 'REJECTED', 'text-blue-500' : loan.status === 'EXTENDED', 'text-gray-700' : loan.status === 'RETURNED', }" class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">{{ loan.status }}</td>
 
 
                                                     <td class="whitespace-nowrap  px-3 py-0 border-r border-b border-gray-100 text-green-500">
@@ -221,7 +177,7 @@
 
                                                                 <li v-if="loan.status === 'APPROVED'"><a href="#" @click="dataLoan(loan.id)" class="block px-4 py-2 text-blue-500 hover:bg-gray-100">Extend Loan</a> </li>
 
-                                                                <li v-if="loan.status === 'APPROVED'"><a v-if="loan.extended === 0 || loan.extended === 1" href="#" @click="receiveLoan(loan.id)" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Return Loan</a> </li>
+                                                                <li v-if="loan.status === 'APPROVED'"><a v-if="loan.extended === 0 || loan.extended === 1" href="#" @click="receiveLoan(loan.id)" class="block px-4 py-2 text-yellow-500 hover:bg-gray-100">Return Loan</a> </li>
                                                                 
                                                             </ul>
                                                         </div>
@@ -254,7 +210,6 @@ import Sidebar from "../../components/layouts/Sidebar.vue";
 import Footer from "../../components/layouts/Footer.vue";
 
 
-// import axios from "axios";
 import { getLoans, approveLoan, rejectLoan, showLoan, extendLoan, returnLoan } from '../../jscore/init.js';
 import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
 import { getProfileImageUrl } from '../../jscore/ImageHandler.js';

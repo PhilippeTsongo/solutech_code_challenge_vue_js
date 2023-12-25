@@ -16,7 +16,7 @@ const authToken = localStorage.getItem('authToken');
 
 //Redirect unauthenticated user to login
 if(authToken === null && window.location.pathname !== '/login'){
-  window.location.href = '/login'; // Redirect to the login route
+  	window.location.href = '/login'; // Redirect to the login route
 }  
 
 
@@ -28,13 +28,13 @@ const inactivityTimeout = 10 * 60 * 1000; // 10 minutes in milliseconds
 let inactivityTimer;
 
 function resetInactivityTimer() {
-  clearTimeout(inactivityTimer);
-  inactivityTimer = setTimeout(() => {
-    // Logout the user after 10 minutes of inactivity
-  localStorage.removeItem('authToken'); // Clear the authentication token
-  window.location.href = '/login'; // Redirect to the login route
+	clearTimeout(inactivityTimer);
+	inactivityTimer = setTimeout(() => {
+			// Logout the user after 10 minutes of inactivity
+		localStorage.removeItem('authToken'); // Clear the authentication token
+		window.location.href = '/login'; // Redirect to the login route
 
-  }, inactivityTimeout);
+	}, inactivityTimeout);
 }
 
 // Attach event listeners to reset the inactivity timer on user activity
@@ -45,8 +45,8 @@ document.addEventListener('scroll', resetInactivityTimer);
 
 // Optionally, reset the inactivity timer on each Axios request
 axios.interceptors.request.use((config) => {
-  resetInactivityTimer();
-  return config;
+	resetInactivityTimer();
+	return config;
 });
 
 

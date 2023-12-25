@@ -28,7 +28,7 @@
 
                                     <div class="flex py-5 w-full">
                                         <div class="title flex-1">
-                                            <h2 class="uppercase text-lg text-green-500"><i class="fa fa-list-ol"></i> New Sub Category</h2>
+                                            <h2 class="uppercase text-sm text-green-500"><i class="fa fa-list-ol"></i> New Sub Category</h2>
                                         </div>
                                         <div class="">
                                             <button v-if="showModal" class="bg-white px-2 py-1 rounded text-red-500" @click="toggleModal"><i class="fa fa-xmark"></i> </button>
@@ -81,7 +81,7 @@
 
                                     <div class="flex py-5 w-full">
                                         <div class="title flex-1">
-                                            <h2 class="uppercase text-lg text-green-500"><i class="fa fa-list-ol"></i> Edit Sub Category</h2>
+                                            <h2 class="uppercase text-sm text-green-500"><i class="fa fa-list-ol"></i> Edit Sub Category</h2>
                                         </div>
                                         <div class="">
                                             <button v-if="showModalEdit" class="bg-white px-2 py-1 rounded text-red-500" @click="toggleModalEdit"><i class="fa fa-xmark"></i> </button>

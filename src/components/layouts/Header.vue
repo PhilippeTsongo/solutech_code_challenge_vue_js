@@ -54,6 +54,9 @@
 import { userLogout } from "../../jscore/init.js";
 import {getProfileImageUrl} from '../../jscore/ImageHandler.js';
 
+import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
+
+
 import axios from "axios";
 
 export default {
@@ -75,26 +78,26 @@ export default {
 	},
 
   methods: {
-    fetchUserInfo() {
-
-      axios
-        .get("/user/authenticated")
-        .then(response => {
+    async fetchUserInfo() {
+      try{ 
+        const response = await axios.get("/user/authenticated");
+        
           this.email = response.data.user.email;
           this.name = response.data.user.name;
           this.profile = response.data.user.profile.replace(/\\/g, "/");
 
           // console.log(response.status);
-        })
-        .catch(error => {
-          // console.log(error.response.status);
+        }catch(errors){
+          // console.log(errors.response.status);
 
-          if (error.response.status === 401) {
-            this.$router.push("/");
-            window.location.reload();
-            console.error("Error fetching user information:", error);
+          if (errors.response){
+            if (errors.response.status === 401) {
+              this.$router.push("/");
+              window.location.reload();
+              console.error("Error fetching user data:", errors);
+            }
           }
-        });
+        };
     },
 
     profileInfo() {

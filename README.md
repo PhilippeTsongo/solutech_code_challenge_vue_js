@@ -2,10 +2,10 @@
 
 ## About the project
 
-This is a user interface for a school information management system developed using vue js and tailwindcss.
+This is a user interface for a library information management system developed using vue js and tailwindcss for styling.
 It is one hundred purcent responsive
 
-It contains: 
+These interfaces are made of: 
   -Tables, 
   -Forms, 
   -Graphics, 

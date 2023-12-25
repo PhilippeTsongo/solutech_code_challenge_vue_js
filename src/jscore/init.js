@@ -192,3 +192,16 @@ export function deleteSubcategory(subcategory){
 export function getSelectOptionsRoles(){
     return axios.get('/user/role')
 }
+
+
+// +++++++++++++++++++++++++++++++++++++ DASHBOARD +++++++++++++++++++++++++++++++++++
+
+//dashboard books info 
+export function bookChart(){
+    return axios.get('/dashboard/book')
+}
+
+//dashboard loans info
+export function loanChart(){
+    return axios.get('/dashboard/loan')
+}

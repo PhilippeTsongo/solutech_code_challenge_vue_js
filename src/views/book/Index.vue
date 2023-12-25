@@ -230,7 +230,7 @@
                                                         </select>
                                                     </div>
                                                     <div class="mt-5 md:mt-0">
-                                                        <label class="block text-xs mt-5 uppercase">Penalty Amount </label>
+                                                        <label class="block text-xs mt-5 uppercase">Penalty Amount (Required if penalty status is charged) </label>
                                                         <input type="number" v-model="loanData.penalty_amount" class="block mt-1 border rounded-md p-2 border-gray-300 w-full">
                                                     </div>
                                                 </div>

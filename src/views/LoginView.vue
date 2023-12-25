@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="mt-10">
-                        <input v-model="password" class="border border-gray-300 w-full rounded px-5 py-2" type="password" placeholder="Paasword" required>
+                        <input v-model="password" class="border border-gray-300 w-full rounded px-5 py-2" type="password" placeholder="Password" required>
                     </div>
 
                     <div class="mt-7 ml-0">
