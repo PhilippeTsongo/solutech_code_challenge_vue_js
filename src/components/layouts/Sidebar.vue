@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="">
 <div v-if="!receivedMenu" ref="goMenu">    
     
 <div class="md:block">

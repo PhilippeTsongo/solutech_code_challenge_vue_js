@@ -1,50 +1,50 @@
 <template>
-    <div class="flex w-100 pb-3 bg-[#F5F7FB]">
+    <div class="flex sm:w-100 md:w-100 pb-3 bg-[#F5F7FB]">
       <div class="flex pl-14">
-			<form action="" class="flex">
-				<i class="fa fa-search absolute mt-3 ml-3"></i>
-				<input type="search" class="pl-8 p-2 rounded-md w-48 sm:w-96" placeholder="Search...">
-			</form>
+        <form action="" class="flex">
+          <i class="fa fa-search absolute mt-3 ml-3"></i>
+          <input type="search" class="pl-8 p-2 rounded-md w-48 sm:w-96" placeholder="Search...">
+        </form>
 
-			<div class="flex absolute right-5">
-				<div class="bg-white mr-2 rounded-md p-2 text-green-500 ">
-						<span class="notification-icon m-2">
-						<i class="fa fa-bell"></i>
-						</span> 
-						<span class="xs:hidden md:inline parameter-icon m-2">
-						<i class="fa fa-envelope"></i>
-						</span>
-				</div>
-				
-				<div class="flex font-bold ">
-					<span id="focusableNames" class="bg-white rounded-md p-2 pl-2 pr-2 ">{{ name }}  </span>
-					<img @click="profileInfo" :src="handleImage(profile)" class="rounded-full border border-gray-300 ml-2 w-9 h-9 cursor-pointer">
-				</div>
-				<div v-if="showModalProfile" class="flex absolute right-0 mt-14 rounded-lg bg-white border border-gray-300 shadow-xl">
-					<div class="">
-						<div class="bg-gray-100 border-b border-gray-200 p-2 rounded-tr-lg rounded-tl-lg text-black"> Profile
-							<span @click="profileInfo" title="Déconnexion" class="absolute cursor-pointer right-2 bg-white px-2 py-0 rounded text-red-500"><i class="fa fa-xmark"></i></span> 
-						</div>
-						<div class="flex justify-center mx-auto px-3 mt-3">
-							<img :src="handleImage(profile)" class="rounded-full border border-gray-300 ml-2 w-24 h-24 cursor-pointer">
-						</div>
-						<div class="font-bold mt-5 px-5 py-2 text-center">
-							{{ name }} 
-						</div>
+        <div class="flex absolute right-5">
+          <div class="xs:hidden md:inline bg-white mr-2 rounded-md p-2 text-green-500 ">
+              <span class="notification-icon m-2">
+              <i class="fa fa-bell"></i>
+              </span> 
+              <span class="parameter-icon m-2">
+              <i class="fa fa-envelope"></i>
+              </span>
+          </div>
+          
+          <div class="flex font-bold">
+            <span id="focusableNames" class="xs:hidden md:flex bg-white rounded-md p-2 pl-2 pr-2 ">{{ name }}  </span>
+            <img @click="profileInfo" :src="handleImage(profile)" class="rounded-full border border-gray-300 ml-2 w-9 h-9 cursor-pointer">
+          </div>
+          <div v-if="showModalProfile" class="flex absolute right-0 mt-14 rounded-lg bg-white border border-gray-300 shadow-xl">
+            <div class="">
+              <div class="bg-gray-100 border-b border-gray-200 p-2 rounded-tr-lg rounded-tl-lg text-black"> Profile
+                <span @click="profileInfo" title="Déconnexion" class="absolute cursor-pointer right-2 bg-white px-2 py-0 rounded text-red-500"><i class="fa fa-xmark"></i></span> 
+              </div>
+              <div class="flex justify-center mx-auto px-3 mt-3">
+                <img :src="handleImage(profile)" class="rounded-full border border-gray-300 ml-2 w-24 h-24 cursor-pointer">
+              </div>
+              <div class="font-bold mt-5 px-5 py-2 text-center">
+                {{ name }} 
+              </div>
 
-						<div class="font-bold mt-5 px-5 py-2 text-center">
-							{{ email }} 
-						</div>
+              <div class="font-bold mt-5 px-5 py-2 text-center">
+                {{ email }} 
+              </div>
 
-						<form @submit.prevent="SignOut" class="flex justify-center mb-2">
-							<input type="text" id="focusableEmail" value="{{email}}" class="hidden block border rounded-md p-2 border-gray-300 w-full"  >
+              <form @submit.prevent="SignOut" class="flex justify-center mb-2">
+                <input type="text" id="focusableEmail" value="{{email}}" class="hidden block border rounded-md p-2 border-gray-300 w-full"  >
 
-							<button class="text-xl bg-red-500 text-white px-2 py-0 rounded"><i class="fa fa-power-off"></i></button>
-						</form>
-						
-					</div>
-				</div>
-			</div>
+                <button class="text-xl bg-red-500 text-white px-2 py-0 rounded"><i class="fa fa-power-off"></i></button>
+              </form>
+              
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 </template>

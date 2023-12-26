@@ -1,7 +1,7 @@
 
 <template>
-	<div class="w-72 mb-5 py-4 px-4">
-      	<canvas ref="loansChart"></canvas>
+	<div class="w-full max-h-48 mb-5 py-4 px-4">
+      	<canvas ref="usersChart"></canvas>
     </div>
   </template>
   
@@ -29,7 +29,7 @@ export default {
 			}
   
 			// Check if the canvas element is available
-			const canvas = this.$refs.loansChart;
+			const canvas = this.$refs.usersChart;
 			if (!canvas) {
 				console.error("Canvas element not found");
 			return;
@@ -38,14 +38,14 @@ export default {
 			// console.log(this.data);
 			const ctx = canvas.getContext('2d');
 			this.chart = new Chart(ctx, {
-				type: 'radar',
+				type: 'bar',
 				data: {
-					labels: ['Total Loans', 'Pending Loans', 'Approved Loans', 'Rejected Loans', 'Extended Loans', 'Returned Loans'],
+					labels: ['Total Users', 'Active', 'Inactive'],
 					datasets: [
 						{
-							label: 'Number of Loans',
-							data: [this.data.loans, this.data.pending, this.data.approved, this.data.rejected, this.data.extended, this.data.returned],
-							backgroundColor: ['#008000', '#FFA500', '#008000', '#FF0000', '#0000FF', '#FFFF00'],
+							label: 'Number of users',
+							data: [this.data.users, this.data.active, this.data.inactive],
+							backgroundColor: ['#3498db', '#2ecc71', '#FF0000'], //'#e74c3c'],
 						},
 					],
 				},

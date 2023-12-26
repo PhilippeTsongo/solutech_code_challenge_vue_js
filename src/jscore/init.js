@@ -205,3 +205,9 @@ export function bookChart(){
 export function loanChart(){
     return axios.get('/dashboard/loan')
 }
+
+
+//dashboard users info
+export function userChart(){
+    return axios.get('/dashboard/user')
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="text-center p-5">copyright 2023 Philippe Tsongo</div>
+    <div class="text-center p-5 mt-5">copyright 2023 Philippe Tsongo</div>
 </template>
 
 

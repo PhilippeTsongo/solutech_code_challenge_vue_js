@@ -1,7 +1,7 @@
 <template>
-  <div class="flex md:w-full py-4 px-4">
-    <canvas ref="booksChart"></canvas>
-  </div>
+	<div class="md:w-full max-h-48 mb-5 py-4 px-4">
+        <canvas ref="booksChart" class=""></canvas>
+    </div>
 </template>
 
 <script>

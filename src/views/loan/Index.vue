@@ -97,15 +97,14 @@
                                     <div> Returned </div> 
                                 </div>
                             </div>
-                        </div>
-                        <div>    
-                            <div class="title mt-5">
-                                <h2 class="uppercase text-green-400"><i class="fa fa-list-ul"></i> Related</h2>
+                            <div>    
+                                <div class="title mt-5">
+                                    <h2 class="uppercase text-green-400"><i class="fa fa-list-ul"></i> Related</h2>
+                                </div>
+                                <ul class="mt-5">
+                                    <li class="py-2 px-2 w-100 mt-4 rounded bg-white border border-[#111827] text-center hover:bg-[#111827] hover:text-white hover:border-[#111827] "><router-link :to="{ name: 'IndexBook'}"> <i class="fa-solid fa-book"></i> Books</router-link></li>
+                                </ul>
                             </div>
-                            <ul class="mt-5">
-                                <li class="py-2 px-2 w-100 mt-4 rounded bg-white border border-[#111827] text-center hover:bg-[#111827] hover:text-white hover:border-[#111827] "><router-link :to="{ name: 'IndexLoan'}"> <i class="fa-solid fa-rectangle-list"></i> Sub Categories</router-link></li>
-                            </ul>
-
                         </div>
                     </div>
                     
