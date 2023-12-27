@@ -17,6 +17,10 @@ import IndexLoan from '../views/loan/Index.vue'
 import IndexCategory from '../views/category/Index.vue'
 import IndexSubCategory from '../views/subcategory/Index.vue'
 
+//forbidden page
+import Forbidden from '../views/Forbidden.vue'
+
+
 const routes = [
 
 	//appIndex
@@ -74,6 +78,13 @@ const routes = [
 		path: '/subcategory',
 		name: 'IndexSubCategory',
 		component: IndexSubCategory
+	},
+
+	//sub category
+	{
+		path: '/forbidden',
+		name: 'Forbidden',
+		component: Forbidden
 	}
 
 
@@ -85,7 +96,7 @@ const router = createRouter({
 });
 
 
-// Example of Vue Router navigation guard
+// Router navigation guard
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth) && !userIsAuthenticated) {
 		// Redirect to the login page or show a 403 Forbidden page

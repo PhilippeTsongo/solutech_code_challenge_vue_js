@@ -18,9 +18,9 @@
             <div class="content rounded-md bg-[#F5F7FB] mt-3">
     
                 <div class="mb-2 flex">
-                    <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i>Categories </h1>
+                    <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i> Categories </h1>
                     
-                    <div class="">
+                    <div v-if="userRole == 1"  class="">
                         <button v-if="showModal == false" class="border border-green text-green-500 bg-white py-1 px-2 rounded hover:text-white hover:bg-green-500 hover:text-white" @click="toggleModal"><i class="fa fa-plus-circle"></i> New Category</button>
                     </div>
                 </div>
@@ -118,15 +118,14 @@
                                 <div>{{ total }}</div>
                                 <div class="text-bold">Total</div>
                             </div>
-                        </div>
-                        <div>    
-                            <div class="title mt-5">
-                                <h2 class="uppercase text-green-400"><i class="fa fa-list-ul"></i> Related</h2>
+                            <div>    
+                                <div class="title mt-5">
+                                    <h2 class="uppercase text-green-400"><i class="fa fa-list-ul"></i> Related</h2>
+                                </div>
+                                <ul class="mt-5">
+                                    <li class="py-2 px-2 w-100 mt-4 rounded bg-white border border-[#111827] text-center hover:bg-[#111827] hover:text-white hover:border-[#111827] "><router-link :to="{ name: 'IndexSubCategory'}"> <i class="fa-solid fa-rectangle-list"></i> Sub Categories</router-link></li>
+                                </ul>
                             </div>
-                            <ul class="mt-5">
-                                <li class="py-2 px-2 w-100 mt-4 rounded bg-white border border-[#111827] text-center hover:bg-[#111827] hover:text-white hover:border-[#111827] "><router-link :to="{ name: 'IndexSubCategory'}"> <i class="fa-solid fa-rectangle-list"></i> Sub Categories</router-link></li>
-                            </ul>
-
                         </div>
                     </div>
                     
@@ -156,7 +155,7 @@
                                                     <th scope="col" class=" px-3 py-3">Name</th>
                                                     <th scope="col" class=" px-3 py-3">Books</th>
                                                     <th scope="col" class=" px-3 py-3">Sub Categories</th>
-                                                    <th scope="col" class=" px-3 py-3">Action</th>
+                                                    <th v-if="userRole == 1" scope="col" class=" px-3 py-3">Action</th>
 
                                                 </tr>
                                             </thead>
@@ -168,7 +167,7 @@
                                                     <td class="whitespace-nowrap  px-3 py-0 font-medium border-r border-b border-gray-200" :class="{ 'text-red-500' : category.books.length == 0 }" >{{ category.books.length }}</td>
                                                     <td class="whitespace-nowrap  px-3 py-0 font-medium border-r border-b border-gray-200" :class="{ 'text-red-500' : category.sub_categories.length == 0 }" >{{ category.sub_categories.length }}</td>
 
-                                                    <td class="whitespace-nowrap  px-3 py-0 border-r border-b border-gray-100 text-green-500">
+                                                    <td v-if="userRole == 1"  class="whitespace-nowrap  px-3 py-0 border-r border-b border-gray-100 text-green-500">
                                                         <button @click="toggleDropdown(index)" :id="index" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100" type="button"> 
                                                             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                                                                 <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
@@ -217,7 +216,7 @@ import Footer from "../../components/layouts/Footer.vue";
 // import axios from "axios";
 import {getCategories, addCategory, showCategory, editCategory, deleteCategory} from '../../jscore/init.js';
 import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
-
+import { getUserRole } from '../../jscore/UserRole.js';
 
 export default {
   name: "IndexCategory",
@@ -241,12 +240,15 @@ export default {
             formData: {
                 name: '',
             },
+
+            userRole: '',
             
         };
   },
 
     mounted(){
         this.fetchCategories();
+        this.userRole = getUserRole();
         
     },
 

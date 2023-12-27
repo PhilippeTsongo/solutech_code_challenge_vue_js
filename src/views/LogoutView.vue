@@ -29,7 +29,11 @@ export default {
 
                 userLogout(credentials)
                     .then((response) => {
-                        localStorage.removeItem('authToken'); // Clear the authentication token
+                         // Clear user data from local storage
+                        localStorage.removeItem('authToken'); 
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('userData'); 
+
                         window.location.href = '/login'; // Redirect to the login route
                         successMessage(this.$toast, response.data.message);
                     })

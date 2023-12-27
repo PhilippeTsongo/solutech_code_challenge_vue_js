@@ -20,7 +20,7 @@
                 <div class="flex backdrop mb-5">
                     <h1 class="text-green-300 uppercase text-xs"><i class="fa fa-book mr-1"></i> Books</h1>
                     
-                    <div class="absolute right-0">
+                    <div v-if="userRole == 1" class="absolute right-0">
                         <button v-if="!showModal || !showModalEdit" class="border border-green text-green-500 bg-white py-1 px-2 rounded hover:text-white hover:bg-green-500 hover:text-white" @click="toggleModal"><i class="fa fa-plus-circle"></i> New book</button>
                     </div>
                 </div>
@@ -346,11 +346,15 @@
                                                                 <span @click="toggleDropdown(index)" :id="index" class="absolute cursor-pointer right-2 bg-white px-2 py-0 rounded text-red-500"><i class="fa fa-xmark"></i></span> 
                                                             </div>
                                                             <ul class="py-2 text-sm text-gray-700" :aria-labelledby="'dropdownMenuIconHorizontalButton_' + index">
-                                                                <li><a href="#" @click="dataBookBorrow(book.id)" class="block px-4 py-2 text-blue-500 hover:bg-gray-100">Borrow</a> </li>
-                                                                <li><a href="#" @click="dataBook(book.id)" class="block px-4 py-2 hover:bg-gray-100">Edit</a> </li>
-                                                                <li v-if="book.status === 'UNAVAILABLE'" @click="statusBookAvailable(book.id)"><a href="#" class="block px-4 py-2 hover:bg-gray-100 text-green-500">Available</a></li>
-                                                                <li v-if="book.status === 'AVAILABLE'" @click="statusBookUnavailable(book.id)"><a href="#" class="block px-4 py-2 hover:bg-gray-100 text-red-500">Unavailable</a></li>
-                                                                <li><a href="#" @click="delBook(book.id)" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Delete</a> </li>
+                                                                <div v-if="userRole == 2">
+                                                                    <li><a href="#" @click="dataBookBorrow(book.id)" class="block px-4 py-2 text-blue-500 hover:bg-gray-100" :class="{ 'text-red-500' : book.status === 'UNAVAILABLE' }" >{{ book.status === 'UNAVAILABLE' ? 'Cant be borrowed' : 'Borrow'}}</a> </li>
+                                                                </div>
+                                                                <div v-if="userRole == 1">
+                                                                    <li><a href="#" @click="dataBook(book.id)" class="block px-4 py-2 hover:bg-gray-100">Edit</a> </li>
+                                                                    <li v-if="book.status === 'UNAVAILABLE'" @click="statusBookAvailable(book.id)"><a href="#" class="block px-4 py-2 hover:bg-gray-100 text-green-500">Available</a></li>
+                                                                    <li v-if="book.status === 'AVAILABLE'" @click="statusBookUnavailable(book.id)"><a href="#" class="block px-4 py-2 hover:bg-gray-100 text-red-500">Unavailable</a></li>
+                                                                    <li><a href="#" @click="delBook(book.id)" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Delete</a> </li>
+                                                                </div>
                                                             </ul>
                                                         </div>
                                                     </td>
@@ -379,12 +383,10 @@ import Header from "../../components/layouts/Header.vue";
 import Sidebar from "../../components/layouts/Sidebar.vue";
 import Footer from "../../components/layouts/Footer.vue";
 
-// import axios from "axios";
 import {getBooks, addBook, showBook, editBook, availableBook, unavailableBook, deleteBook, requestLoan, getSubcategories } from '../../jscore/init.js';
 import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
 import { getProfileImageUrl } from '../../jscore/ImageHandler.js';
-
-
+import { getUserRole } from '../../jscore/UserRole.js';
 
 
 export default {
@@ -433,7 +435,7 @@ export default {
             charged: 'CHARGED',
             not_charged: 'NOT_CHARGED',
             selectedFile: null,
-
+            userRole: '',
 
         };
     },
@@ -441,6 +443,9 @@ export default {
     mounted(){
         this.fetchBooks();
         this.selectOptions();
+
+        this.userRole = getUserRole();
+
     },
 
 
@@ -504,7 +509,7 @@ export default {
                         }
                     } else {
                         // Other errors
-                        console.error(errors);
+                        errorMessage(this.$toast, errors.response.data.message);
                     }
                 });
         },
@@ -582,7 +587,7 @@ export default {
                         }
                     } else {
                         // Other errors
-                        errorMessage(this.$toast, errors.response.data.maessage);
+                        errorMessage(this.$toast, errors.response.data.message);
                     }
                 });   
         },
@@ -643,7 +648,7 @@ export default {
                         }
                     } else {
                         // Other errors
-                        errorMessage(this.$toast, errors.response.data.maessage);
+                        errorMessage(this.$toast, errors.response.data.message);
                     }
                 });   
         },

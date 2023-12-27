@@ -8,8 +8,8 @@ import axios from 'axios';
 // }
 
 //logout
-export function userLogout(credentials){
-    return axios.post('/logout', credentials)
+export function userLogout(){
+    return axios.post('/logout')
 }
 
 

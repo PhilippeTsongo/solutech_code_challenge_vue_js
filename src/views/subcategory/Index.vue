@@ -20,7 +20,7 @@
                 <div class="mb-2 flex">
                     <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i>Sub categories </h1>
                     
-                    <div class="">
+                    <div v-if="userRole == 1"  class="">
                         <button v-if="showModal == false" class="border border-green text-green-500 bg-white py-1 px-2 rounded hover:text-white hover:bg-green-500 hover:text-white" @click="toggleModal"><i class="fa fa-plus-circle"></i> New Sub Category</button>
                     </div>
                 </div>
@@ -140,15 +140,17 @@
                                 <div>{{ total }}</div>
                                 <div class="text-bold">Total</div>
                             </div>
-                        </div>
-                        <div>    
-                            <div class="title mt-5">
-                                <h2 class="uppercase text-green-400"><i class="fa fa-list-ul"></i> Related</h2>
+
+                            <div>    
+                                <div class="title mt-5">
+                                    <h2 class="uppercase text-green-400"><i class="fa fa-list-ul"></i> Related</h2>
+                                </div>
+                                <ul class="mt-5">
+                                    <li class="py-2 px-2 w-100 mt-4 rounded bg-white border border-[#111827] text-center hover:bg-[#111827] hover:text-white hover:border-[#111827] "><router-link :to="{ name: 'IndexCategory'}"> <i class="fa-solid fa-rectangle-list"></i> Category</router-link></li>
+                                </ul>
                             </div>
-                            <ul class="mt-5">
-                                <li class="py-2 px-2 w-100 mt-4 rounded bg-white border border-[#111827] text-center hover:bg-[#111827] hover:text-white hover:border-[#111827] "><router-link :to="{ name: 'IndexCategory'}"> <i class="fa-solid fa-rectangle-list"></i> Category</router-link></li>
-                            </ul>
                         </div>
+                        
                     </div>
                     
                     <div class="flex-1 rounded-md bg-white pt-6 pl-6 pr-6 pb-2 xs:ml-0 sm:ml-0 md:ml-5 mt-2 w-100 ">
@@ -176,7 +178,7 @@
                                                     <th scope="col" class=" px-3 py-3">#</th>
                                                     <th scope="col" class=" px-3 py-3">Name</th>
                                                     <th scope="col" class=" px-3 py-3">Category</th>
-                                                    <th scope="col" class=" px-3 py-3">Action</th>
+                                                    <th v-if="userRole == 1"  scope="col" class=" px-3 py-3">Action</th>
 
                                                 </tr>
                                             </thead>
@@ -186,7 +188,7 @@
                                                     <td class="whitespace-nowrap  px-3 py-2 font-medium border-r border-b border-gray-100">{{ index + 1}}</td>
                                                     <td class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100">{{ subcategory.name }}</td>
                                                     <td class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100">{{ subcategory  && subcategory.category ? subcategory.category.name : '' }} </td>
-                                                    <td class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">
+                                                    <td v-if="userRole == 1"  class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">
                                                         <button @click="toggleDropdown(index)" :id="index" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100" type="button"> 
                                                             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
                                                                 <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
@@ -232,13 +234,15 @@ import Footer from "../../components/layouts/Footer.vue";
 // import axios from "axios";
 import {getSubcategories, addSubcategory, showSubcategory, editSubcategory, deleteSubcategory, getCategories } from '../../jscore/init.js';
 import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
+import { getUserRole } from '../../jscore/UserRole.js';
+
 
 
 export default {
-  name: "IndexSubCategory",
-  components: { Head, Header, Sidebar, Footer },
+    name: "IndexSubCategory",
+    components: { Head, Header, Sidebar, Footer },
 
-  data() {
+    data() {
         return {
             showModal: false,
             showModalEdit: false,
@@ -249,6 +253,7 @@ export default {
 
             subcategories: {},
             categories: {},
+            userRole: '',
             
 
             //form fields
@@ -263,7 +268,7 @@ export default {
         this.fetchSubcategories();
         
         this.optionList();
-
+        this.userRole = getUserRole();
     },
 
 

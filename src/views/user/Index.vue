@@ -19,7 +19,7 @@
                 <div class="flex backdrop mb-5">
                     <h1 class="text-green-300 uppercase text-xs"><i class="fa fa-users"></i> Users</h1>
                     
-                    <div class="absolute right-0">
+                    <div v-if="userRole == 1" class="absolute right-0">
                         <button v-if="!showModal || !showModalEdit" class="border border-green text-green-500 bg-white py-1 px-2 rounded hover:text-white hover:bg-green-500 hover:text-white" @click="toggleModal"><i class="fa fa-plus-circle"></i> New User</button>
                     </div>
                 </div>
@@ -64,11 +64,11 @@
 
                                                     <div class="mt-5 md:mt-0">
                                                         <div class="mt-0">
-                                                            <label class="block text-xs uppercase">Email <span class="text-red-500">*</span></label>
-                                                            <input type="email" v-model="userForm.email" class="block mt-1 border rounded-md p-2 border-gray-300 w-full" required>
-
-                                                            <label class="block mt-5 text-xs uppercase">Name <span class="text-red-500">*</span></label>
+                                                            <label class="block mt-0 text-xs uppercase">Name <span class="text-red-500">*</span></label>
                                                             <input type="text" v-model="userForm.name" class="block mt-1 border rounded-md p-2 border-gray-300 w-full" required>
+                                                        
+                                                            <label class="block mt-5 text-xs uppercase">Email <span class="text-red-500">*</span></label>
+                                                            <input type="email" v-model="userForm.email" class="block mt-1 border rounded-md p-2 border-gray-300 w-full" required>
                                                         </div>
                                                         <div class="mt-0">
                                                             
@@ -122,23 +122,17 @@
                                                         <div class="mt-5 md:grid grid-flow-col flex-stretch gap-8">
                                                             
                                                             <img :src="handleImage(userForm.profile)" class="rounded-lg w-full h-50" >
-                                                            <!-- <label class="relative flex items-center justify-center rounded-md border border-dashed border-[#e0e0e0] mt-5 md:mt-0 xs:p-2 md:p-12 text-center">
-                                                                <div>
-                                                                    <span class="mb-2 block text-xl font-semibold text-[#07074D]">Drop files here</span>
-                                                                    <span class="mb-2 block text-base font-medium text-[#6B7280]"> Or</span>
-                                                                    <input type="file" ref="fileInput" @change="handleFileChange" accept="image/*"  class="inline-flex rounded border border-[#e0e0e0] py-2 px-7 text-base font-medium text-[#07074D]">
-                                                                </div>
-                                                            </label> -->
+                                                            
                                                         </div>
                                                     </div>
 
                                                     <div class="mt-5 md:mt-0">
                                                         <div class="mt-4">
+                                                            <label class="block mt-0 text-xs uppercase">Name <span class="text-red-500">*</span></label>
+                                                            <input type="text" v-model="userForm.name" class="block mt-1 border rounded-md p-2 border-gray-300 w-full" required>
+                                                            
                                                             <label class="block text-xs uppercase">Email <span class="text-red-500">*</span></label>
                                                             <input type="email" v-model="userForm.email" class="block mt-1 border rounded-md p-2 border-gray-300 w-full" required>
-
-                                                            <label class="block mt-5 text-xs uppercase">Name <span class="text-red-500">*</span></label>
-                                                            <input type="text" v-model="userForm.name" class="block mt-1 border rounded-md p-2 border-gray-300 w-full" required>
                                                         </div>
                                                         <div class="mt-5">
                                                             <label class="mt-0 block text-xs uppercase">User type <span class="text-red-500">*</span></label>
@@ -216,7 +210,7 @@
                                                     <th scope="col" class=" px-3 py-3">Email</th>
                                                     <th scope="col" class=" px-3 py-3">User type</th>
                                                     <th scope="col" class=" px-3 py-3">Status</th>
-                                                    <th scope="col" class=" px-3 py-3">Action</th>
+                                                    <th v-if="userRole == 1" scope="col" class=" px-3 py-3">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="h-100 border-r border-b border-gray-100">
@@ -229,7 +223,7 @@
                                                     <td class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100">{{ user.email }}</td>
                                                     <td class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100">{{ user.role.name }}</td>
                                                     <td :class=" {'text-red-500' : user.status === 'INACTIVE' }" class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">{{ user.status }}</td>
-                                                    <td class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">
+                                                    <td v-if="userRole == 1" class="whitespace-nowrap  px-3 py-2 border-r border-b border-gray-100 text-green-500">
                                                         
                                                         <button @click="toggleDropdown(index)" :id="index" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100" type="button"> 
                                                             <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
@@ -278,8 +272,7 @@ import Footer from "../../components/layouts/Footer.vue";
 import {getUsers, addUser, showUser, editUser, activateUser, deactivateUser, getSelectOptionsRoles } from '../../jscore/init.js';
 import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
 import { getProfileImageUrl } from '../../jscore/ImageHandler.js';
-
-
+import { getUserRole } from '../../jscore/UserRole.js';
 
 
 export default {
@@ -310,7 +303,7 @@ export default {
             },
 
             selectedFile: null,
-
+            userRole: '',
 
         };
     },
@@ -318,6 +311,7 @@ export default {
     mounted(){
         this.fetchUsers();
         this.selectOptions();
+        this.userRole = getUserRole();
     },
 
 
@@ -379,7 +373,7 @@ export default {
                             //toast notification
                             errorMessage(this.$toast, firstError );
                         }
-                    } else {
+                    }else{
                         // Other errors
                         console.error(errors);
                     }
@@ -421,7 +415,6 @@ export default {
                     successMessage(this.$toast, response.data.message);
                     //close the tab    
                     this.showModalEdit = !this.showModalEdit;
-
                     // fetch List
                     this.fetchUsers();
                 })

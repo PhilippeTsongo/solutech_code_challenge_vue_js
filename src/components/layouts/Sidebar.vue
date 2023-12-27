@@ -41,13 +41,13 @@
             </li>
         </ul>
 
-        <ul class="mt-5">
+        <ul v-if="userRole == 1" class="mt-5">
             <li class="ml-0 mt-2 p-2 hover:bg-[#F5F7FB] hover:rounded">
                 <a href="" class="text-gray-900 uppercase"> <router-link :to="{ name: 'IndexCategory' }"> <i class="fa-solid fa-rectangle-list"></i> Category</router-link></a>
             </li>
         </ul>
 
-        <ul class="mt-5">
+        <ul v-if="userRole == 1" class="mt-5">
             <li class="ml-0 mt-2 p-2 hover:bg-[#F5F7FB] hover:rounded">
                 <a href="" class="text-gray-900 uppercase"> <router-link :to="{ name: 'IndexUser' }"> <i class="fa fa-users"></i> Users</router-link></a>
             </li>
@@ -56,7 +56,6 @@
     </div>
 
     <!-- SIDEBAR WITHOUT TITLE -->
-    <!-- <div :class="{  'md:hidden' : !showMenu }"  class="sidebar pt-3 pl-3 pr-3 bg-white text-center"> -->
     <div v-if="!showMenu" class="sidebar pt-3 pl-3 pr-3 bg-white text-center">
 
         <ul class="mt-8">
@@ -77,13 +76,13 @@
             </li>
         </ul>
 
-        <ul class="mt-8">
+        <ul v-if="userRole == 1" class="mt-8">
             <li class="ml-0 mt-3">
                 <a href="" title="Categories"> <router-link :to="{ name: 'IndexCategory' }"> <i class="fa-solid fa-rectangle-list"></i> </router-link></a>
             </li>
         </ul>
 
-        <ul class="mt-8">
+        <ul v-if="userRole == 1" class="mt-8">
             <li class="ml-0 mt-3">
                 <a href="" title="Users"> <router-link :to="{ name: 'IndexUser' }"> <i class="fa fa-users"></i> </router-link></a>
             </li>
@@ -97,29 +96,32 @@
 
 <script>
 import Header from "./Header.vue";
+import { getUserRole } from '../../jscore/UserRole.js';
+
 
 export default {
   name: "Sidebar",
   components: { Header },
 
-  data() {
-    return {
-      showMenu: true,
-
-      receivedMenu: ""
-    };
-  },
-
-  props: ["data"],
-
-  mounted() {
-    this.newMenu();
-  },
-
-  methods: {
-    toggleShowMenu() {
-      this.showMenu = !this.showMenu;
+    data() {
+        return {
+            showMenu: true,
+            userRole: "",
+            receivedMenu: ""
+        };
     },
+
+    props: ["data"],
+
+    mounted() {
+        this.newMenu();
+        this.userRole = getUserRole();
+    },
+
+    methods: {
+        toggleShowMenu() {
+            this.showMenu = !this.showMenu;
+        },
 
     newMenu() {
       this.receivedMenu = this.$refs.goMenu;

@@ -19,9 +19,8 @@
             <div class="content rounded-md bg-[#F5F7FB] mt-3">
     
                 <div class="mb-2 flex">
-                    <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i>Loan </h1>
+                    <h1 class="flex-1 text-gray-300 uppercase text-xs"><i class="fa fa-users"></i> Loans </h1>
                 </div>
-              
                 <!--edit modal -->
                 <div v-if="showModalEdit">
                         <div class="grid grid-flow-col rounded absolute w-96 top-20 right-0 h-auto">
@@ -112,7 +111,7 @@
 
                         <div class="bg-[#111827]-100 flex">
                             <div class="title flex-1">
-                                <h2 class="uppercase text-lg text-green-500"><i class="fa fa-list-ol"></i>Loan</h2>
+                                <h2 class="uppercase text-lg text-green-500"><i class="fa fa-list-ol"></i>{{ userRole == 1 ? 'LOANS' : 'MY LOANS' }}</h2>
                             </div>
 
                             <div class="" style="margin-top: -5px;">
@@ -176,13 +175,27 @@
                                                                 <span @click="toggleDropdown(index)" :id="index" class="absolute cursor-pointer right-2 bg-white px-2 py-0 rounded text-red-500"><i class="fa fa-xmark"></i></span> 
                                                             </div>
                                                             <ul class="py-2 text-sm text-gray-700" :aria-labelledby="'dropdownMenuIconHorizontalButton_' + index">
-                                                                <li v-if="loan.status === 'PENDING' "><a href="#" @click="approveStatus(loan.id)" class="block px-4 py-2 hover:bg-gray-100">Approve</a> </li>
-                                                                <li v-if="loan.status === 'PENDING' "><a href="#" @click="rejectStatus(loan.id)" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Reject</a> </li>
+                                                                <div v-if="userRole == 1">
+                                                                    <li v-if="loan.status === 'PENDING' "><a href="#" @click="approveStatus(loan.id)" class="block px-4 py-2 hover:bg-gray-100">Approve</a> </li>
+                                                                    <li v-if="loan.status === 'PENDING' "><a href="#" @click="rejectStatus(loan.id)" class="block px-4 py-2 text-red-500 hover:bg-gray-100">Reject</a> </li>
+                                                                </div>
+                                                                <div v-if="userRole == 2">
+                                                                    <li v-if="loan.status === 'APPROVED'"><a href="#" @click="dataLoan(loan.id)" class="block px-4 py-2 text-blue-500 hover:bg-gray-100">Extend Loan</a> </li>
 
-                                                                <li v-if="loan.status === 'APPROVED'"><a href="#" @click="dataLoan(loan.id)" class="block px-4 py-2 text-blue-500 hover:bg-gray-100">Extend Loan</a> </li>
+                                                                    <li v-if="loan.status === 'APPROVED'"><a v-if="loan.extended === 0 || loan.extended === 1" href="#" @click="receiveLoan(loan.id)" class="block px-4 py-2 text-yellow-500 hover:bg-gray-100">Return Loan</a> </li>
+                                                                </div>
 
-                                                                <li v-if="loan.status === 'APPROVED'"><a v-if="loan.extended === 0 || loan.extended === 1" href="#" @click="receiveLoan(loan.id)" class="block px-4 py-2 text-yellow-500 hover:bg-gray-100">Return Loan</a> </li>
-                                                                
+                                                                <div v-if="userRole == 1">
+                                                                    <li v-if="loan.status === 'RETURNED' || loan.status === 'REJECTED' || loan.status === 'APPROVED'">
+                                                                        <span  class="block px-4 py-2 text-yellow-500 hover:bg-gray-100">No action</span> 
+                                                                    </li>
+                                                                </div>
+
+                                                                <div v-if="userRole == 2">
+                                                                    <li v-if="loan.status === 'RETURNED' || loan.status === 'PENDING' || loan.status === 'REJECTED'">
+                                                                        <span  class="block px-4 py-2 text-yellow-500 hover:bg-gray-100">No action</span> 
+                                                                    </li>
+                                                                </div>
                                                             </ul>
                                                         </div>
                                                     </td>
@@ -217,6 +230,7 @@ import Footer from "../../components/layouts/Footer.vue";
 import { getLoans, approveLoan, rejectLoan, showLoan, extendLoan, returnLoan } from '../../jscore/init.js';
 import {successMessage, errorMessage} from '../../jscore/IoNotification.js';
 import { getProfileImageUrl } from '../../jscore/ImageHandler.js';
+import { getUserRole } from '../../jscore/UserRole.js';
 
 
 export default {
@@ -243,15 +257,17 @@ export default {
                 extension_date: '',
             },
             
+            userRole: '',
         };
     },
 
     mounted(){
         this.fetchLoans();
-        
+        this.userRole = getUserRole();
     },
 
     methods: {
+        
         //Loans list
         fetchLoans(){
 
@@ -263,7 +279,7 @@ export default {
                 this.extended = response.data.extended;
                 this.rejected = response.data.rejected;
                 this.returned = response.data.returned;
-                this.total = response.data.total;
+                this.total = response.data.total;                
             })
             .catch(error => {
                 console.log(error);
@@ -393,7 +409,9 @@ export default {
         newMenu(){
             this.goMenu = !this.goMenu;
         }
+
     }
+
     
 };
 </script>

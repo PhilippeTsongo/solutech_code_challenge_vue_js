@@ -59,7 +59,7 @@ export default {
         return{
            email: '',
            password: '',
-           loadMessage: 'En cours....',
+           loadMessage: 'Load....',
            loading: false,
            userData: {},
         }
@@ -74,17 +74,27 @@ export default {
             };
             this.loading = true;
 
-            setTimeout ( () => {
+            setTimeout(() => {
                 this.loading = false;
                 axios.post('/login', credentials)
                     .then((response) => {
                         const token = response.data.accessToken; 
+                        const userRole = response.data.user.role_id; 
+                        
+                        const userData = {
+                            'name':  response.data.user.name,
+                            'email': response.data.user.email,
+                            'profile': response.data.user.profile,
+                        }; 
+
                         localStorage.setItem('authToken', token); 
-                        // this.$store.commit('setAuthToken', token);
+                        localStorage.setItem('userRole', userRole); 
+                        localStorage.setItem('userData', JSON.stringify(userData)); 
 
                         successMessage(this.$toast, response.data.message);
-                        // redirect to the dashborad
-                        this.$router.push('/'); 
+                        // redirect to the home page
+                        window.location.href = '/';
+
                     })
                     .catch((errors) => {
                         // console.log(errors.response);

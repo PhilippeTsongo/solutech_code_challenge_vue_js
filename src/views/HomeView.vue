@@ -21,8 +21,8 @@
             </div> -->
             <div class="sm:w-4/4 md:w-4/4 lg:w-100">
                <div class="rounded-md bg-white py-5 flex items-stretch mt-6 ">
-                  <span href="" class="flex-1 text-center text-md md:text-lg"><router-link :to="{ name: 'IndexLoan' }"> <i class="fa-solid fa-rectangle-list"></i> Loan </router-link></span>
-                  <span href="" class="flex-1 text-center text-md md:text-lg"><router-link :to="{ name: 'IndexBook' }"> <i class="fa fa-book"></i> Book </router-link></span>
+                  <span href="" class="flex-1 text-center text-md md:text-lg"><router-link :to="{ name: 'IndexLoan' }"> <i class="fa-solid fa-rectangle-list"></i> Loans </router-link></span>
+                  <span href="" class="flex-1 text-center text-md md:text-lg"><router-link :to="{ name: 'IndexBook' }"> <i class="fa fa-book"></i> books </router-link></span>
                   <span href="" class="flex-1 text-center text-md md:text-lg"><router-link :to="{ name: 'IndexUser' }"> <i class="fa fa-users"></i> Users </router-link></span>
                </div>
 
@@ -30,13 +30,17 @@
                   <div class="lg:grid grid-flow-col justify-stretch xs:gap-2 lg:gap-5">
                      <div class="">
                         <div class="rounded-md bg-green-100 p-4 w-full staff">
-                           <h2 class="font-bold text-lg md:text-xl md:mb-4 md:ml-1">Total Users</h2>
-                           <div class="sm:grid grid-flow-col mt-3 justify-stretch md:gap-10">
-                              <div class="flex-1 md:ml-1">
-                                 <h1 class="text-2xl">200</h1>
+                           <h2 class="font-bold text-lg md:text-xl md:mb-4 md:ml-1">{{ userRoleId == 1 ? 'LOANS' : 'MY LOANS' }} </h2>
+                           <div class="xs:grid grid-flow-col mt-3 justify-between xs:gap:5 md:gap-10">
+                              <div class="md:ml-1">
+                                 <h1 class="text-2xl">{{loansData.loans}}</h1>
                               </div>
-                              <div class="flex-1 mt-1">
-                                 <span class="bg-white rounded-full text-xs p-1"><i class="fa fa-check"></i> Actif 10</span>
+                              
+                              <div class="mt-1">
+                                 <span class="rounded-full text-xs p-1 bg-red-500 text-white"><i class="fa fa-check"></i> Rejected {{ loansData.rejected }}</span>
+                              </div>
+                              <div class="mt-1">
+                                 <span class="rounded-full text-xs p-1 bg-green-500 text-white"><i class="fa fa-check"></i> Approved {{ loansData.approved }}</span>
                               </div>
                            </div>
                         </div>
@@ -60,7 +64,7 @@
                      </div>
 
                      <div class="rounded-md w-full bg-white p-0 pt-5 xs:mt-5 md:mt-0">
-                           <h2 class="font-bold text-lg md:text-xl mb-4 ml-4">Loans</h2>
+                           <h2 class="font-bold text-lg md:text-xl mb-4 ml-4">{{ userRoleId == 1 ? 'LOANS' : 'MY LOANS' }}</h2>
 
                         <!-- loans component graph -->
                         <loans-chart :data="loansData"></loans-chart>
@@ -90,6 +94,8 @@ import UsersChart from "../components/charts/UsersChart.vue";
 
 
 import { bookChart, loanChart, userChart } from "../jscore/init.js";
+import { getUserRole} from "../jscore/UserRole.js";
+import { isAuthenticated} from "../jscore/checkAuth.js";
 
 export default {
   name: "HomeView",
@@ -98,7 +104,7 @@ export default {
 	data() {
 		return {
          goMenu: false,
-
+         userRoleId: '',
 			booksData: {
 				books: 0,
 				available: 0,
@@ -122,43 +128,49 @@ export default {
 		};
 	},
 
-	mounted() {
-		this.fetchBooksData();
-		this.fetchLoansData();
-      this.fetchUsersData();
-	},
+
+   async created() {
+      if (isAuthenticated()) {
+         this.userRoleId = getUserRole(); // Make sure you have a way to get the user role
+         await this.fetchBooksData();
+         await this.fetchLoansData();
+         await this.fetchUsersData();
+
+      } else {
+         // Redirect to the login page or handle unauthorized access
+         this.$router.push("/login");
+      }
+   },
 
 	methods: {
-		fetchBooksData() {
-			bookChart()
-			.then(response => {
-				this.booksData = response.data;
-			})
-			.catch(errors => {
-				console.error("Error fetching books data:", errors);
-			});
-		},
 
-		fetchLoansData() {
-			loanChart()
-			.then(response => {
-			   this.loansData = response.data;
-			})
-			.catch(errors => {
-			   console.error("Error fetching loans data:", errors);
-			});
-		},
+      async fetchBooksData() {
+         try {
+            const response = await bookChart();
+            this.booksData = response.data;
+         } catch (errors) {
+               console.error("Error fetching books data:", errors);
+         }
+      },
 
-      fetchUsersData() {
-			userChart()
-			.then(response => {
-			   this.usersData = response.data;
-			})
-			.catch(errors => {
-			   console.error("Error fetching users data:", errors);
-			});
-		},
+      async fetchLoansData() {
+         try {
+            const response = await loanChart();
+            this.loansData = response.data;
+         } catch (errors) {
+            console.error("Error fetching loans data:", errors);
+         }
+      },
 
+      async fetchUsersData() {
+         try {
+            const response = await userChart();
+            this.usersData = response.data;
+         } catch (errors) {
+            console.error("Error fetching users data:", errors);
+         }
+      },
+   
       newMenu(){
          this.goMenu = !this.goMenu;
       }
