@@ -17,9 +17,6 @@ import IndexLoan from '../views/loan/Index.vue'
 import IndexCategory from '../views/category/Index.vue'
 import IndexSubCategory from '../views/subcategory/Index.vue'
 
-//forbidden page
-import Forbidden from '../views/Forbidden.vue'
-
 
 const routes = [
 
@@ -27,7 +24,8 @@ const routes = [
 	{
 		path: '/',
 		name: 'home',
-		component: HomeView
+		component: HomeView,
+		
 	},
 
 	//login
@@ -42,27 +40,28 @@ const routes = [
 		path: '/logout',
 		name: 'logout',
 		component: LogoutView
+		
 	},
 
 	//user
 	{
 		path: '/user',
 		name: 'IndexUser',
-		component: IndexUser
+		component: IndexUser,
 	},
 
 	//book
 	{
 		path: '/book',
 		name: 'IndexBook',
-		component: IndexBook
+		component: IndexBook,
 	},
 
 	//loan
 	{
 		path: '/loan',
 		name: 'IndexLoan',
-		component: IndexLoan
+		component: IndexLoan,
 	},
 
 	
@@ -70,40 +69,39 @@ const routes = [
 	{
 		path: '/category',
 		name: 'IndexCategory',
-		component: IndexCategory
+		component: IndexCategory,
 	},
 
 	//sub category
 	{
 		path: '/subcategory',
 		name: 'IndexSubCategory',
-		component: IndexSubCategory
-	},
-
-	//sub category
-	{
-		path: '/forbidden',
-		name: 'Forbidden',
-		component: Forbidden
+		component: IndexSubCategory,
 	}
+
 
 
 ]
 
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
-	routes
-});
-
-
-// Router navigation guard
-router.beforeEach((to, from, next) => {
-	if (to.matched.some(record => record.meta.requiresAuth) && !userIsAuthenticated) {
-		// Redirect to the login page or show a 403 Forbidden page
-		next({ name: 'login' });
+	routes,
+  });
+  
+  // Simulating user authentication state
+  let userIsAuthenticated = false;
+  
+  // Router navigation guard
+  router.beforeEach((to, from, next) => {
+	// Assuming you have a meta field for authentication check
+	const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  
+	if (requiresAuth && !userIsAuthenticated) {
+	  // Redirect to the login page or show a 403 Forbidden page
+	  next({ name: 'login' });
 	} else {
-		next();
+	  next();
 	}
-});
-
-export default router
+  });
+  
+  export default router;

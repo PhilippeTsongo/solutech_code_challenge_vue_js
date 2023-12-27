@@ -10,11 +10,11 @@ import Toaster from '@meforma/vue-toaster';
 import axios from 'axios';
 import { autoLogout } from './jscore/AutoLogoutInactivity';
 
-//local
-const apiBaseUrl = 'http://127.0.0.1:8000/api';
-
-//production
+//api base url local
 // const apiBaseUrl = 'http://127.0.0.1:8000/api';
+
+//api base url production
+const apiBaseUrl = 'https://www.solutech-library.fms-knb.site/public/api';
 
 const authToken = localStorage.getItem('authToken');
 
